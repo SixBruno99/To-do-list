@@ -113,8 +113,8 @@ class ToDoListScreen extends StatelessWidget {
                                 },
                                 child: Icon(
                                   item.isFavorite
-                                      ? Icons.star_border
-                                      : Icons.star_sharp,
+                                      ? Icons.star_sharp
+                                      : Icons.star_border,
                                   color: Colors.green,
                                 ),
                               ),

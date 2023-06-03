@@ -1,8 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../repositories/to_do_list.dart';
-import 'create_item.dart';
 import 'edit_item.dart';
 
 class FavoritesList extends StatelessWidget {
@@ -10,11 +11,11 @@ class FavoritesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final toDoList = Provider.of<ToDoRepository>(context);
+    final favoritesList = Provider.of<ToDoRepository>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Notas'),
+        title: Text('Lista de Favoritos'),
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
@@ -22,57 +23,25 @@ class FavoritesList extends StatelessWidget {
         color: const Color(0xFF181818),
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.fromLTRB(16, 32, 16, 16),
-              child: ElevatedButton(
-                onPressed: () {
-                  final dateController = TextEditingController();
-                  final textController = TextEditingController();
-
-                  showDialog(
-                    context: context,
-                    builder: (context) => CreateToDoItem(
-                      dateController: dateController,
-                      textController: textController,
-                      repository: toDoList,
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  backgroundColor: Colors.green,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Criar Nova Anotação',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-            ),
-            toDoList.toDoList.isEmpty
+            favoritesList.toDoListFavourites.isEmpty
                 ? Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(16),
                     child: Text(
-                      'Nenhuma nota foi criada ainda.',
+                      'Nenhuma nota favoritada ainda.',
                       style: TextStyle(fontSize: 18, color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
                   )
                 : Expanded(
                     child: ListView.builder(
-                      itemCount: toDoList.toDoList.length,
+                      itemCount: favoritesList.toDoListFavourites.length,
                       itemBuilder: (context, index) {
-                        final item = toDoList.toDoList[index];
+                        final item = favoritesList.toDoListFavourites[index];
                         return Dismissible(
                           key: Key(item.date + item.text),
                           onDismissed: (direction) {
-                            toDoList.removeItem(item);
+                            favoritesList.removeItem(item);
                           },
                           background: Container(
                             color: Colors.green,
@@ -95,7 +64,7 @@ class FavoritesList extends StatelessWidget {
                                 builder: (context) => EditToDoItem(
                                   dateController: dateController,
                                   textController: textController,
-                                  repository: toDoList,
+                                  repository: favoritesList,
                                   item: item,
                                 ),
                               );
@@ -104,15 +73,13 @@ class FavoritesList extends StatelessWidget {
                               leading: InkWell(
                                 onTap: () {
                                   if (item.isFavorite) {
-                                    toDoList.removeFromFavorites(item);
+                                    favoritesList.removeFromFavorites(item);
                                   } else {
-                                    toDoList.addToFavorites(item);
+                                    favoritesList.addToFavorites(item);
                                   }
                                 },
                                 child: Icon(
-                                  item.isFavorite
-                                      ? Icons.star_border
-                                      : Icons.star_sharp,
+                                  Icons.star_sharp,
                                   color: Colors.green,
                                 ),
                               ),
