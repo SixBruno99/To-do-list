@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:to_do_list/widgets/favorites_list.dart';
 import 'package:to_do_list/widgets/show_list.dart';
 
 class Home extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HomeState extends State<Home> {
 
   List<Widget> screens = [
     ToDoListScreen(),
-    Text("oi"),
+    FavoritesList(),
   ];
 
   @override

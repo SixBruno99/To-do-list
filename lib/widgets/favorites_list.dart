@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,8 +5,8 @@ import '../repositories/to_do_list.dart';
 import 'create_item.dart';
 import 'edit_item.dart';
 
-class ToDoListScreen extends StatelessWidget {
-  const ToDoListScreen({super.key});
+class FavoritesList extends StatelessWidget {
+  const FavoritesList({super.key});
 
   @override
   Widget build(BuildContext context) {
