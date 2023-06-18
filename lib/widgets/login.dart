@@ -1,14 +1,49 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:to_do_list/home.dart';
 import 'package:to_do_list/widgets/register.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
-  void loginRequest() {
-    // Requisição com async await
+  void loginRequest(BuildContext context, String email, String password) async {
+    final url = Uri.parse("https://todo-api-service.onrender.com/users/signin");
+
+    try {
+      final response = await http.post(url, body: {
+        'email': email,
+        'password': password,
+      });
+
+      if (response.statusCode == 200) {
+        // Usuário autenticado com sucesso, avance para a tela Home
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      } else {
+        // Exibir mensagem de erro ao usuário
+        print("seu merda ${response.statusCode}");
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Erro de autenticação'),
+            content: Text('Email ou senha incorretos.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      // Exibir mensagem de erro ao usuário
+      print("error: ${e}");
+    }
   }
 
   @override
@@ -26,7 +61,6 @@ class Login extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         color: Color(0xFF181818),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
               controller: emailController,
@@ -86,11 +120,9 @@ class Login extends StatelessWidget {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                loginRequest();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()),
-                );
+                String email = emailController.text;
+                String password = senhaController.text;
+                loginRequest(context, email, password);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
