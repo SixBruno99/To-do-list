@@ -26,8 +26,7 @@ class ToDoRepository extends ChangeNotifier {
 
   void removeItem(ToDoItem item) {
     _toDoList.remove(item);
-    _toDoListFavorites
-        .remove(item); // Remove também da lista de favoritos, se estiver lá
+    _toDoListFavorites.remove(item);
     notifyListeners();
   }
 

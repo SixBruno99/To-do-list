@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../repositories/to_do_list.dart';
@@ -23,7 +24,36 @@ class CreateToDoItem extends StatefulWidget {
 }
 
 class _CreateToDoItemState extends State<CreateToDoItem> {
-  String selectedDate = '';
+  DateTime selectedDate =  DateTime.now();
+
+  Future<void> _saveToDoItem() async {
+    final String text = widget.textController.text;
+    final String userId = "6486394931c62e6858f8c281";
+
+    if (text.isNotEmpty) {
+      final url = Uri.parse("https://todo-api-service.onrender.com/task");
+      final response = await http.post(
+        url,
+        body: {
+          'date': selectedDate.toIso8601String(),
+          'description': text,
+          'userId': userId,
+        },
+      );
+
+      if (response.statusCode == 201) {
+        // Successful request, handle the response if needed
+        print('To-Do item saved successfully');
+      } else {
+        // Request failed, handle the error if needed
+        print('data ${selectedDate}');
+        print('Failed to save To-Do item ${response.statusCode}');
+      }
+
+      widget.repository.addItem(DateFormat('dd/MM/yyyy').format(selectedDate), text);
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +70,9 @@ class _CreateToDoItemState extends State<CreateToDoItem> {
                 context,
                 showTitleActions: true,
                 onConfirm: (date) {
-                  final formattedDate = DateFormat('dd/MM/yyyy').format(date);
-                  widget.dateController.text = formattedDate;
+                  widget.dateController.text = DateFormat('dd/MM/yyyy').format(date);
                   setState(() {
-                    selectedDate = formattedDate;
+                    selectedDate = date;
                   });
                 },
                 currentTime: DateTime.now(),
@@ -67,14 +96,7 @@ class _CreateToDoItemState extends State<CreateToDoItem> {
               child: Text('Cancelar'),
             ),
             TextButton(
-              onPressed: () {
-                final String formattedDate = selectedDate;
-                final String text = widget.textController.text;
-                if (formattedDate.isNotEmpty && text.isNotEmpty) {
-                  widget.repository.addItem(formattedDate, text);
-                  Navigator.pop(context);
-                }
-              },
+              onPressed: _saveToDoItem,
               child: Text('Adicionar'),
             ),
           ],

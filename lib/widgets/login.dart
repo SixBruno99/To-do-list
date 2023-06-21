@@ -25,7 +25,7 @@ class Login extends StatelessWidget {
         );
       } else {
         // Exibir mensagem de erro ao usuário
-        print("seu merda ${response.statusCode}");
+        print("${response.statusCode}");
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -61,6 +61,7 @@ class Login extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         color: Color(0xFF181818),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
               controller: emailController,
