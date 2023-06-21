@@ -70,11 +70,7 @@ class Login extends StatelessWidget {
                 labelText: 'Email',
                 filled: true,
                 fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(32.0),
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                focusedBorder: OutlineInputBorder(
+                border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(32.0),
                   borderSide: BorderSide(color: Colors.white),
                 ),
@@ -89,11 +85,7 @@ class Login extends StatelessWidget {
                 labelText: 'Senha',
                 filled: true,
                 fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(32.0),
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                focusedBorder: OutlineInputBorder(
+                border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(32.0),
                   borderSide: BorderSide(color: Colors.white),
                 ),

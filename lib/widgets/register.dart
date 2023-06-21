@@ -73,11 +73,7 @@ class Register extends StatelessWidget {
                       labelText: 'Nome',
                       filled: true,
                       fillColor: Colors.white,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32.0),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(32.0),
                         borderSide: BorderSide(color: Colors.white),
                       ),
@@ -91,11 +87,7 @@ class Register extends StatelessWidget {
                       labelText: 'Email',
                       filled: true,
                       fillColor: Colors.white,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32.0),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(32.0),
                         borderSide: BorderSide(color: Colors.white),
                       ),
@@ -110,11 +102,7 @@ class Register extends StatelessWidget {
                       labelText: 'Senha',
                       filled: true,
                       fillColor: Colors.white,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32.0),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(32.0),
                         borderSide: BorderSide(color: Colors.white),
                       ),
