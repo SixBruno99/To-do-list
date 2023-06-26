@@ -1,9 +1,18 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:to_do_list/home.dart';
 import 'package:to_do_list/widgets/register.dart';
 import 'package:http/http.dart' as http;
+
+class User {
+  final String id;
+  final String email;
+
+  User(this.id, this.email);
+}
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -18,10 +27,14 @@ class Login extends StatelessWidget {
       });
 
       if (response.statusCode == 200) {
-        // Usuário autenticado com sucesso, avance para a tela Home
+        final jsonResponse = json.decode(response.body);
+        final userId = jsonResponse['id'];
+
+        User user = User(userId, email);
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => Home(user: user)),
         );
       } else {
         // Exibir mensagem de erro ao usuário

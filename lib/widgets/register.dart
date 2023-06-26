@@ -30,20 +30,32 @@ class Register extends StatelessWidget {
     String jsonBody = json.encode(userData);
 
     try {
-      var response =
-          await http.post(Uri.parse(url), headers: headers, body: jsonBody);
+      var response = await http.post(Uri.parse(url), headers: headers, body: jsonBody);
 
       if (response.statusCode == 201) {
-        // Requisição bem-sucedida, você pode lidar com a resposta aqui
-        print('Requisição bem-sucedida!');
+        final jsonResponse = json.decode(response.body);
+        final userId = jsonResponse['id'];
 
-        // Navegar para a tela Home
+        User user = User(userId, email);
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => Home(user: user)),
         );
       } else {
-        print('Falha na requisição. Código de status: ${response.statusCode}');
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Erro de cadastro'),
+            content: Text('Ocorreu um erro durante o cadastro.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
       }
     } catch (error) {
       print('Erro durante a requisição: $error');

@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:to_do_list/widgets/favorites_list.dart';
+import 'package:to_do_list/widgets/login.dart';
 import 'package:to_do_list/widgets/show_list.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({super.key, required User user});
 
   @override
   State<Home> createState() => _HomeState();
