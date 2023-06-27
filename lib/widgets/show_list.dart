@@ -32,6 +32,17 @@ class ToDoListScreen extends StatelessWidget {
     }
   }
 
+  Future<void> deleteTask(String taskId) async {
+    final url = Uri.parse('https://todo-api-service.onrender.com/task/$taskId');
+    final response = await http.delete(url);
+
+    if (response.statusCode == 200) {
+      print('Tarefa excluída');
+    } else {
+      print('Erro ao excluir a tarefa: ${response.statusCode}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final toDoList = Provider.of<ToDoRepository>(context);
@@ -114,7 +125,7 @@ class ToDoListScreen extends StatelessWidget {
                           return Dismissible(
                             key: Key(item['_id']),
                             onDismissed: (direction) {
-                              // Remover o item da lista
+                              deleteTask(item['_id']);
                             },
                             background: Container(
                               color: Colors.green,
