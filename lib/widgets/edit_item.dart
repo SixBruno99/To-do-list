@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../repositories/to_do_list.dart';
@@ -24,6 +25,45 @@ class EditToDoItem extends StatefulWidget {
 }
 
 class _EditToDoItemState extends State<EditToDoItem> {
+  Future<void> updateTask() async {
+    final newDate = convertToDate(widget.dateController.text);
+    final newText = widget.textController.text;
+
+    if (newDate == null) {
+      print('Data inválida');
+      return;
+    }
+
+    final url = Uri.parse(
+        'https://todo-api-service.onrender.com/task/${widget.itemId}');
+    final response = await http.patch(
+      url,
+      body: {
+        'date': newDate.toIso8601String(),
+        'description': newText,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('Tarefa atualizada');
+      setState(() {
+        widget.dateController.text = newDate.toString();
+        widget.textController.text = newText;
+      });
+    } else {
+      print(widget.itemId);
+      print('Erro ao atualizar a tarefa: ${response.statusCode}');
+    }
+  }
+
+  DateTime? convertToDate(String input) {
+    try {
+      return DateFormat('dd-MM-yyyy').parseStrict(input);
+    } catch (e) {
+      print("$e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -76,11 +116,9 @@ class _EditToDoItemState extends State<EditToDoItem> {
             ),
             TextButton(
               onPressed: () {
-                final newDate = widget.dateController.text;
-                final newText = widget.textController.text;
-                widget.repository
-                    .updateItem(widget.itemId, newDate, newText);
-                Navigator.of(context).pop();
+                updateTask().then((_) {
+                  Navigator.of(context).pop();
+                });
               },
               child: Text('Salvar'),
             ),

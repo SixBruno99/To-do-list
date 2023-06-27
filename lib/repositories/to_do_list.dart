@@ -6,7 +6,6 @@ import '../widgets/login.dart';
 
 import 'package:collection/collection.dart';
 
-
 class ToDoItem {
   String date;
   String text;
@@ -61,14 +60,14 @@ class ToDoRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-void updateItem(String itemId, String newDate, String newText) {
-  final item = toDoList.firstWhereOrNull((item) => item.id == itemId);
-  if (item != null) {
-    item.date = newDate;
-    item.text = newText;
-    notifyListeners();
+  void updateItem(String itemId, String newDate, String newText) {
+    final item = toDoList.firstWhereOrNull((item) => item.id == itemId);
+    if (item != null) {
+      item.date = newDate;
+      item.text = newText;
+      notifyListeners();
+    }
   }
-}
 
   void addToFavorites(ToDoItem item) {
     if (!_toDoListFavorites.contains(item)) {
