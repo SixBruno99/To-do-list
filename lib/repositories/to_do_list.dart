@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
+import '../widgets/login.dart';
 
 class ToDoItem {
   String date;
@@ -18,6 +22,27 @@ class ToDoRepository extends ChangeNotifier {
 
   List<ToDoItem> get toDoList => _toDoList;
   List<ToDoItem> get toDoListFavourites => _toDoListFavorites;
+  
+  get http => null;
+
+    Future<void> fetchTasks() async {
+    final url = Uri.parse("https://todo-api-service.onrender.com/task/user/${GlobalData.userId}");
+    
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> responseBody = json.decode(response.body);
+        // Processar e atualizar a lista de tarefas conforme necessário
+      } else {
+        // Exibir mensagem de erro ao usuário
+        print("Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      // Exibir mensagem de erro ao usuário
+      print("Error: $e");
+    }
+  }
 
   void addItem(String date, String text) {
     _toDoList.add(ToDoItem(date: date, text: text));

@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:to_do_list/home.dart';
 import 'package:to_do_list/widgets/register.dart';
@@ -12,6 +11,10 @@ class User {
   final String email;
 
   User(this.id, this.email);
+}
+
+class GlobalData {
+  static String userId = '';
 }
 
 class Login extends StatelessWidget {
@@ -31,6 +34,7 @@ class Login extends StatelessWidget {
         final userId = jsonResponse['id'];
 
         User user = User(userId, email);
+        GlobalData.userId = userId;
 
         Navigator.push(
           context,

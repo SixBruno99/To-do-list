@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import '../repositories/to_do_list.dart';
 import 'create_item.dart';
 import 'edit_item.dart';
+import 'login.dart';
 
 class ToDoListScreen extends StatelessWidget {
   const ToDoListScreen({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class ToDoListScreen extends StatelessWidget {
     final toDoList = Provider.of<ToDoRepository>(context);
 
     Future<List<Map<String, dynamic>>> showList =
-        tasksRequest('6486394931c62e6858f8c281');
+        tasksRequest(GlobalData.userId);
 
     return Scaffold(
       appBar: AppBar(
