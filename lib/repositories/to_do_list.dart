@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 
 import '../widgets/login.dart';
 
+import 'package:collection/collection.dart';
+
+
 class ToDoItem {
   String date;
   String text;
   bool isFavorite;
+
+  var id;
 
   ToDoItem({
     required this.date,
@@ -22,12 +27,13 @@ class ToDoRepository extends ChangeNotifier {
 
   List<ToDoItem> get toDoList => _toDoList;
   List<ToDoItem> get toDoListFavourites => _toDoListFavorites;
-  
+
   get http => null;
 
-    Future<void> fetchTasks() async {
-    final url = Uri.parse("https://todo-api-service.onrender.com/task/user/${GlobalData.userId}");
-    
+  Future<void> fetchTasks() async {
+    final url = Uri.parse(
+        "https://todo-api-service.onrender.com/task/user/${GlobalData.userId}");
+
     try {
       final response = await http.get(url);
 
@@ -55,11 +61,14 @@ class ToDoRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateItem(ToDoItem item, String newDate, String newText) {
+void updateItem(String itemId, String newDate, String newText) {
+  final item = toDoList.firstWhereOrNull((item) => item.id == itemId);
+  if (item != null) {
     item.date = newDate;
     item.text = newText;
     notifyListeners();
   }
+}
 
   void addToFavorites(ToDoItem item) {
     if (!_toDoListFavorites.contains(item)) {

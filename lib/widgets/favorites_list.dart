@@ -7,7 +7,7 @@ import '../repositories/to_do_list.dart';
 import 'edit_item.dart';
 
 class FavoritesList extends StatelessWidget {
-  const FavoritesList({super.key});
+  const FavoritesList({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class FavoritesList extends StatelessWidget {
                                   dateController: dateController,
                                   textController: textController,
                                   repository: favoritesList,
-                                  item: item,
+                                  itemId: item.id,
                                 ),
                               );
                             },

@@ -127,7 +127,21 @@ class ToDoListScreen extends StatelessWidget {
                             ),
                             child: GestureDetector(
                               onTap: () {
-                                // Abrir diálogo de edição
+                                final dateController =
+                                    TextEditingController(text: item['date']);
+                                final textController = TextEditingController(
+                                    text: item['description']);
+
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => EditToDoItem(
+                                    dateController: dateController,
+                                    textController: textController,
+                                    repository: toDoList,
+                                    itemId:
+                                        item['_id'], // Passe o ID corretamente
+                                  ),
+                                );
                               },
                               child: ListTile(
                                 leading: InkWell(
